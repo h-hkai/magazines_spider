@@ -22,9 +22,9 @@ class CleandownloadlinksSpider(scrapy.Spider):
   )
   ## Create cursor, used to execute commands
   cur = conn.cursor()
-  cur.execute("""select * from magazines where pure_download_links is NULL and (tags like '%大陆%' or tags like '%台湾%') order by update_time desc limit 400;""")
+  cur.execute("""select * from magazines where download_links_nums = 0 and (img like '%magsilo%') order by update_time desc limit 400;""")
   z_datas = cur.fetchall() 
-  cur.execute("""select * from magazines where pure_download_links is NULL and not (tags like '%大陆%' or tags like '%台湾%') order by update_time desc limit 400;""")
+  cur.execute("""select * from magazines where download_links_nums = 0 and (img like '%magazines%') order by update_time desc limit 400;""")
   e_datas = cur.fetchall() 
   datas = [e_datas] + [z_datas]
 

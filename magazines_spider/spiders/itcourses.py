@@ -26,13 +26,13 @@ class ItcoursesSpider(scrapy.Spider):
     host = 'localhost',
     user = 'root',
     password = '12345678',
-    database = 'magazines'
+    database = 'courses'
   )
   ## Create cursor, used to execute commands
   cur = conn.cursor()
 
   def existed(self, title):
-    self.cur.execute("""select * from itcourses where title = %s;""", (title,))
+    self.cur.execute("""select * from courses where title = %s;""", (title,))
     courses = self.cur.fetchone() 
     if courses:
       return True

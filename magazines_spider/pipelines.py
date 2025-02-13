@@ -92,14 +92,14 @@ class CoursesSpiderPipeline:
       host = 'localhost',
       user = 'root',
       password = '12345678',
-      database = 'magazines'
+      database = 'courses'
     )
     ## Create cursor, used to execute commands
     self.cur = self.conn.cursor()
 
     ## Create e-magezines table if none exists
     self.cur.execute("""
-    CREATE TABLE IF NOT EXISTS itcourses(
+    CREATE TABLE IF NOT EXISTS courses(
       id int NOT NULL auto_increment,
       title text,
       dummy_download_links text,
@@ -116,7 +116,7 @@ class CoursesSpiderPipeline:
 
   def process_item(self, item, spider):
 
-    self.cur.execute("""insert into itcourses (title, dummy_download_links, download_names, download_links,\
+    self.cur.execute("""insert into courses (title, dummy_download_links, download_names, download_links,\
      downcodes, img, description, tags, update_time) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
       item['title'],
       str(item['dummy_download_links']),

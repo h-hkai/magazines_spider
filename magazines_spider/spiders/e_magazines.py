@@ -61,8 +61,9 @@ class EMagazinesSpider(scrapy.Spider):
 
     pure_download_links = None
     if "海外剧集" in tags:
-      pure_download_links = response.css('.wp-block-zibllblock-hide-content p::text').extract()
-      print("download_links = {}".format(pure_download_links))
+      download_links = response.css('.wp-block-zibllblock-hide-content p::text').extract()
+      pure_download_links = str(list(filter(None, np.array(re.findall(Tools.regex, str(download_links))).flatten())))
+      # print("download_links = {}".format(pure_download_links))
 
     magazine_item['download_links'] = download_links
     magazine_item['pure_download_links'] = pure_download_links
