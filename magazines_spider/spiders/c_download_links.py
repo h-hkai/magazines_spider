@@ -52,12 +52,18 @@ class CleandownloadlinksSpider(scrapy.Spider):
       # print(list(filter(None, np.array(re.findall(self.regex, str(response.headers['Location']))).flatten())))
       pure_download_links = str(list(filter(None, np.array(re.findall(Tools.regex, str(response.headers['Location']))).flatten())))
 
+      count = 0
       if pure_download_links.find("baidu") > 0:
+        count += 1
         self.cur.execute("""update magazines set pure_download_links = %s where id = %s;""", (pure_download_links, id))
       elif pure_download_links.find("lanzoup") > 0:
+        count += 1
         self.cur.execute("""update magazines set lanzoup_download_links = %s where id = %s;""", (pure_download_links, id))
       elif pure_download_links.find("kdocs") > 0:
+        count += 1
         self.cur.execute("""update magazines set kdocs_download_links = %s where id = %s;""", (pure_download_links, id))
+
+      self.cur.execute("""update magazines set download_links_nums = %s where id = %s;""", (count, id))
  
       self.conn.commit()
     pass

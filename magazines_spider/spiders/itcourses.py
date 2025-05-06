@@ -48,7 +48,10 @@ class ItcoursesSpider(scrapy.Spider):
     for course in response.css('.posts .post'):
       # self.log("course = {}".format(course))
       url = course.css('.img a::attr(href)').extract_first()
+      prefix_img = "https://www.itxbzxw.com"
       img = course.css('.img img::attr(data-src)').extract_first()
+      if img.find("http") < 0:
+        img = prefix_img + img
       update_time = course.css('.grid-meta').css('span::text').extract_first()
       yield scrapy.Request(url=url, callback=self.getItem, cb_kwargs=dict(img=img, update_time=update_time))
       # self.log("url = {}".format(url))
